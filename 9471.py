@@ -1,27 +1,21 @@
-nums = {0: 0, 1: 1}
+from collections import deque
 
-def fibonacci(x):
-    global temp, period
-    if x == 0: return 0
-    elif x == 1: return 1
-    else:
-        if not nums.get(x-1):
-            nums[x-1] = fibonacci(x-1) % n
+def solution(m):
+    fib = deque([1, 1, 2 % m])
 
-        elif not nums.get(x-2):
-            nums[x-2] = fibonacci(x-2) % n
-        
-        if nums[x-1] == 1 and nums[x-2] == 0:
-            if temp == 0: temp = x
-            elif period == 0: period = x - temp
+    i = 1
+    while True:
+        if fib[0] == 0 and fib[1] == 1 and fib[2] == 1:
+            return i
 
-        return nums[x-1] + nums[x-2]
+        fib.popleft()
+        fib.append((fib[0] + fib[1]) % m)
 
-for i in range(int(input())):
-    temp = 0
-    period = 0
-    nums = {0: 0, 1: 1}
-    k, n = map(int, input().split())
-    fibonacci(100)
+        i += 1
 
-    print(k, period)
+P = int(input())
+
+for _ in range(P):
+    N, M = map(int, input().split())
+
+    print(N, solution(M))
