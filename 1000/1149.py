@@ -1,25 +1,8 @@
 N = int(input())
 
-prices = [list(map(int, input().split())) for _ in range(N)]
+total_prices = [0, 0, 0]
+for _ in range(N):
+    prices = list(map(int, input().split()))
+    total_prices = [prices[i] + min([total_prices[j] for j in range(3) if i != j]) for i in range(3)]
 
-3 * 2 * 2
-
-3 * 2 ** 99
-
-"""
-1 2 1
-1 2 3
-1 3 1
-1 3 2
-
-2 1 2
-2 1 3
-2 3 1
-2 3 2
-
-3 1 2
-3 1 3
-3 2 1
-3 2 3
-
-"""
+print(min(total_prices))
