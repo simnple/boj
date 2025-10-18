@@ -10,10 +10,11 @@ def calculate_star(n):
         ]
 
     else:
+        calculated_star = calculate_star(n // 3)
         box = [
-            [calculate_star(n // 3), calculate_star(n // 3), calculate_star(n // 3)],
-            [calculate_star(n // 3), calculate_empty(n // 3), calculate_star(n // 3)],
-            [calculate_star(n // 3), calculate_star(n // 3), calculate_star(n // 3)]
+            [calculated_star, calculated_star, calculated_star],
+            [calculated_star, calculate_empty(n // 3), calculated_star],
+            [calculated_star, calculated_star, calculated_star]
         ]
         result = [[] for _ in range(n)]
 
