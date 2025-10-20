@@ -1,31 +1,20 @@
 N, S = map(int, input().split())
-_ = list(map(int, input().split()))
+nums = list(map(int, input().split()))
+total_nums = [0]
 
-nums = [_[0]]
-for i in range(1, len(_)):
-    nums.append(_[i] + nums[i-1])
+for i in range(1, N + 1):
+    total_nums.append(total_nums[i - 1] + nums[i - 1])
 
-size = 1
-result = 0
+min_len = 0
+start, end = 0, 0
+while end < N + 1:
+    value = total_nums[end] - total_nums[start]
+    if value < S:
+        end += 1
+    
+    elif value >= S:
+        if min_len == 0 or end - start < min_len:
+            min_len = end - start
+        start += 1
 
-# print(nums)
-
-while size <= N:
-    for i in range(0, N):
-        start = i
-        end = start + size
-        if end >= N: break
-
-        # print(nums[end], nums[start], size)
-
-        if nums[end] - nums[start] >= S:
-            # print("this!", nums[end], nums[start])
-            result = size
-            size = N + 1
-            break
-    size += 1
-
-if nums[-1] >= S:
-    result = N
-
-print(result)
+print(min_len)
