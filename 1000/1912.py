@@ -1,24 +1,17 @@
-n = int(input())
-nums = list(map(int, input().split()))
+import sys
 
-temp_total = 0
-totals = []
-for i in nums:
-    if i > 0:
-        temp_total += i
+input = sys.stdin.readline
 
-    else:
-        if temp_total + i > 0:
-            temp_total += i
+N = int(input())
+A = list(map(int, input().split()))
 
-        else:
-            if temp_total:
-                totals.append(temp_total)
-                temp_total = 0
+prev_num = max_num = A[0]
 
-            totals.append(i)
+for i in range(1, N):
+    num = max(prev_num + A[i], A[i])
+    prev_num = num
 
-if temp_total:
-    totals.append(temp_total)
+    if max_num < num:
+        max_num = num
 
-print(max(totals))
+print(max_num)
