@@ -15,19 +15,13 @@ if copy_n > 1:
     primes.append(copy_n)
 
 total = 0
-def calculate_value(x):
-    global total
 
-    for j in combinations(primes, x):
+for i in range(1, len(primes) + 1):
+    for j in combinations(primes, i):
         temp = 1
         for k in j:
             temp *= k
 
-        total = total + ((-1) ** (x - 1)) * ((n - 1) // temp)
-
-    if x < len(primes):
-        calculate_value(x + 1)
-
-calculate_value(1)
+        total = total + ((-1) ** (i - 1)) * ((n - 1) // temp)
 
 print(n - total - int(n != 1))
