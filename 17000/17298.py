@@ -1,15 +1,14 @@
-from collections import deque
-
 N = int(input())
 A = list(map(int, input().split()))
 
-ans = [-1] * N
 stack = []
-for i in range(N):
-    while stack and A[stack[-1]] < A[i]:
-        idx = stack.pop()
-        ans[idx] = A[i]
+result = [-1] * N
 
-    stack.append(i)
+for i in range(N - 1, -1, -1):
+    while stack and stack[-1] <= A[i]: stack.pop()
 
-print(*ans)
+    if stack: result[i] = stack[-1]
+
+    stack.append(A[i])
+
+print(*result)
