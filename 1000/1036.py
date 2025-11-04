@@ -1,49 +1,43 @@
-# 너무화가난다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+import sys
 
+input = sys.stdin.readline
 
-def base_10_to_36(x):
-    if x == 0: return 0
-    result = []
-    while x != 0:
-        if x % 36 > 9:
-            result.append(chr(ord("A") + (x % 36) - 10))
-        else:
-            result.append(str(x % 36))
-        x //= 36
-    return "".join(result[::-1])
-
-nums_dict = dict()
-nums_count = dict()
-nums = []
+def int_to_36(n):
+    chars = [str(i) for i in range(10)] + [chr(i) for i in range(65, 91)]
+    if n == 0: return n
+    result = ""
+    while n:
+        result += chars[n%36]
+        n //= 36
+    return result[::-1]
 
 N = int(input())
+word_dict = {chr(i): 0 for i in range(65, 91)}
+for i in range(10):
+    word_dict[str(i)] = 0
+
+char_to_dec = {chr(i): i - 55 for i in range(65, 91)}
+for i in range(10):
+    char_to_dec[str(i)] = i
+
+nums = {}
 for _ in range(N):
-    s = input()
-    nums.append(s)
-    for d in range(len(s)):
-        if nums_dict.get(s[d]) == None:
-            nums_dict[s[d]] = 10**(len(s)-d)
-        else:
-            nums_dict[s[d]] += 10**(len(s)-d)
-        if nums_count.get(s[d]) == None:
-            nums_count[s[d]] = 1
-        else:
-            nums_count[s[d]] += 1
+    string = input().rstrip()
+    can_zero = False
+    for i in range(len(string)):
+        if string[i] == "0" and (not can_zero and not len(string) - i - 1 == 0): continue
+        can_zero = True
+        word_dict[string[i]] += 36 ** (len(string) - i - 1)
+
+word_weight = sorted(word_dict, key=lambda x: word_dict[x] * (35 - char_to_dec[x]), reverse=True)
 
 K = int(input())
 
-words = sorted(nums_dict, key=lambda x: (-len(str(nums_dict[x])), -nums_count[x], -nums_dict[x]))
-temp_nums = nums[:]
-for i in range(N):
-    for j in words[:K]:
-        temp_nums[i] = temp_nums[i].replace(j, "Z")
-print(words)
+for i in range(K):
+    char_to_dec[word_weight[i]] = 35
 
-words = sorted(nums_dict, key=lambda x: (-len(str(nums_dict[x])), nums_count[x], -nums_dict[x]))
-temp_nums_2 = nums[:]
-for i in range(N):
-    for j in words[:K]:
-        temp_nums_2[i] = temp_nums_2[i].replace(j, "Z")
-print(words)
+total = 0
+for key, value in word_dict.items():
+    total += value * char_to_dec[key]
 
-print(base_10_to_36(max(sum(map(lambda x: int(x, 36), temp_nums)), sum(map(lambda x: int(x, 36), temp_nums_2)))))
+print(int_to_36(total))
