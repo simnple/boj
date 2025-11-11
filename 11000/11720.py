@@ -1,6 +1,2 @@
-input()
-__ = 0
-for _ in input():
-    __ += int(_)
-
-print(__)
+N = int(input())
+print(sum(map(int, input())))
