@@ -7,13 +7,13 @@ def DSLR(cur_num):
     D = (cur_num * 2) % 10_000
 
     S = cur_num - 1
-    if S == -1: S = 9999
+    if S == -1: S = 9_999
 
-    d1, d2 = divmod(cur_num, 1000)
+    d1, d2 = divmod(cur_num, 1_000)
     d2, d3 = divmod(d2, 100)
     d3, d4 = divmod(d3, 10)
-    L = d2 * 1000 + d3 * 100 + d4 * 10 + d1
-    R = d4 * 1000 + d1 * 100 + d2 * 10 + d3
+    L = d2 * 1_000 + d3 * 100 + d4 * 10 + d1
+    R = d4 * 1_000 + d1 * 100 + d2 * 10 + d3
 
     return (D, S, L, R)
 
