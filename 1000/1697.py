@@ -2,21 +2,19 @@ from collections import deque
 
 N, K = map(int, input().split())
 
-stack = deque([(N, 0)])
-visited = [False] * 100_001
+visited = [0] * (100_000 + 1)
 
-while stack:
-    node, move_count = stack.popleft()
+queue = deque([N])
 
-    if node == K:
-        print(move_count)
-        break
+while queue:
+    node = queue.popleft()
 
-    if not 0 <= node <= 100_000: continue
-    if visited[node]: continue
+    for x in [node - 1, node + 1, node * 2]:
+        if not (0 <= x <= 100_000): continue
+        if visited[x]: continue
+        if x == N: continue
 
-    visited[node] = True
+        visited[x] = visited[node] + 1
+        queue.append(x)
 
-    stack.append((node - 1, move_count + 1))
-    stack.append((node + 1, move_count + 1))
-    stack.append((node * 2, move_count + 1))
+print(visited[K])
