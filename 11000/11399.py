@@ -1,13 +1,15 @@
-data = {}
+import sys
 
-def cal(idx):
-    if data.get(idx-1) == None:
-        data[idx-1] = (cal(idx-1) if idx-1 > -1 else 0)
+input = sys.stdin.readline
 
-    return _[idx] + data[idx-1]
+N = int(input())
+P = sorted(list(map(int, input().split())))
 
-size = int(input())
-_ = list(map(int, input().split()))
-_.sort()
+total_time = 0
+result = 0
 
-print(sum([cal(i) for i in range(size)]))
+for cur_time in P:
+    total_time += cur_time
+    result += total_time
+
+print(result)
