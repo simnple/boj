@@ -1,29 +1,34 @@
-def n_queen(queens):
-    size = len(queens)
-    if size == N:
-        return 1
-    
-    x_list = [True] * N
-
-    for y in range(size):
-        x = queens[y]
-
-        x_list[x] = False
-        diff = abs(y - size)
-
-        if 0 <= x + diff < N:
-            x_list[x + diff] = False
-        if 0 <= x - diff < N:
-            x_list[x - diff] = False
-
-    result = 0
-    for x in range(N):
-        if not x_list[x]: continue
-
-        result += n_queen(queens + [x])
-
-    return result
-
 N = int(input())
 
-print(n_queen([]))
+visited = [0] * N
+visited_diag1 = [0] * (N * 2)
+visited_diag2 = [0] * (N * 2)
+result = []
+count = 0
+
+def dfs():
+    global count
+    if len(result) == N:
+        count += 1
+        return
+
+    y = len(result)
+    for x in range(N):
+        if visited[x]: continue
+        if visited_diag1[x + y]: continue
+        if visited_diag2[N + x - y]: continue
+
+        visited[x] = 1
+        visited_diag1[x + y] = 1
+        visited_diag2[N + x - y] = 1
+        result.append(x)
+
+        dfs()
+
+        visited[x] = 0
+        visited_diag1[x + y] = 0
+        visited_diag2[N + x - y] = 0
+        result.pop()
+
+dfs()
+print(count)
