@@ -2,29 +2,26 @@ from collections import deque
 
 N, K = map(int, input().split())
 
-visited = [-1] * (100_000 + 1)
+visited = [0] * (100_000 + 1)
+counts = [0] * (100_000 + 1)
+counts[N] = 1
 
 queue = deque([N])
-result = [N]
 
-while queue and visited[K] == -1:
-    node = queue.popleft()
+while queue:
+    x = queue.popleft()
 
-    for x in [node + 1, node - 1, node * 2]:
-        if not 0 <= x <= 100_000: continue
-        elif visited[x] != -1: continue
-        elif x == N: continue
+    for nx in [x - 1, x + 1, x * 2]:
+        if not 0 <= nx < 100_000 + 1: continue
+        if nx == N: continue
 
-        visited[x] = node
-        queue.append(x)
+        if not visited[nx]:
+            visited[nx] = visited[x] + 1
+            counts[nx] += counts[x]
+            queue.append(nx)
 
-        if x == K:
-            current_num = x
-            result = [current_num]
-            while current_num != N:
-                result.append(visited[current_num])
-                current_num = visited[current_num]
-            break
+        elif visited[nx] == visited[x] + 1:
+            counts[nx] += counts[x]
 
-print(len(result) - 1)
-print(*result[::-1])
+print(visited[K])
+print(counts[K])
