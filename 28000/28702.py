@@ -1,25 +1,16 @@
-import sys
+A = [input() for _ in range(3)]
 
-def FizzBuzz(num: int) -> str:
-    result = ""
-    if num % 3 == 0:
-        result += "Fizz"
-    
-    if num % 5 == 0:
-        result += "Buzz"
-    
-    if len(result) == 0:
-        result += str(num)
+for i in range(3):
+    if A[i].isnumeric():
+        num = int(A[i]) + 3 - i
 
-    return result
+        if num % 3 == 0 and num % 5 == 0:
+            print("FizzBuzz")
+        elif num % 3 == 0:
+            print("Fizz")
+        elif num % 5 == 0:
+            print("Buzz")
+        else:
+            print(num)
 
-_ = [sys.stdin.readline().replace("\n", "") for i in range(3)]
-
-if _[0].isnumeric():
-    print(FizzBuzz(int(_[0]) + 3))
-
-elif _[1].isnumeric():
-    print(FizzBuzz(int(_[1]) + 2))
-
-elif _[2].isnumeric():
-    print(FizzBuzz(int(_[2]) + 1))
+        break
